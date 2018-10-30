@@ -1,15 +1,14 @@
 import React, {Component} from 'react';
 
-class Message extends Component {
-  render() {
-    console.log("message props", this.props)
+function Message ({username, message}){
+
     return (
-        <div className="message" key={this.props.key}>
-          <span className="message-username">{this.props.username}</span>
-          <span className="message-content"> {this.props.message}</span>
+        <div className="message">
+          <span className="message-username">{username}</span>
+          <span className="message-content"> {message}</span>
         </div>
     );
-  }
+
 }
 
 // Should this be a seperate component
