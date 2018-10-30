@@ -21,11 +21,10 @@ class App extends Component {
     }
   this.addMessage = this.addMessage.bind(this)
   }
-  addMessage(message) {
-
+  addMessage(username, message) {
     const newMessage = {
       id: this.state.messages.length + 1, //could import uuid here
-      username: this.state.currentUser.name,
+      username: username,
       content: message
     };
 
