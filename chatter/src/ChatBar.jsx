@@ -20,7 +20,7 @@ class ChatBar extends Component {
 
    keyPress(e){
       if(e.keyCode == 13 && this.state.message.length > 0){
-         this.props.addMessage(this.state.username, this.state.message);
+         this.props.sendMessage(this.state.username, this.state.message)
          e.target.value = ''
       }
    }

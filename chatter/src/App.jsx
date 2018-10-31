@@ -8,35 +8,31 @@ class App extends Component {
     super();
     this.state = {
       currentUser: {name: "Anonymous"},
-      messages: [
-    { id: 1,
-      username: "Bob",
-      content: "Has anyone seen my marbles?",
-    },
-    { id: 2,
-      username: "Anonymous",
-      content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
+      messages: []
     }
-  ]
-    }
-  this.addMessage = this.addMessage.bind(this)
+  this.sendMessage = this.sendMessage.bind(this)
   }
-  addMessage(username, message) {
+
+  sendMessage(username, message) {
     const newMessage = {
       id: this.state.messages.length + 1, //could import uuid here
       username: username,
       content: message
     };
 
-    const oldMessages = this.state.messages;
-    const newMessages = [...oldMessages, newMessage];
-    this.setState({ messages: newMessages });
+    this.webSocket.send(JSON.stringify(newMessage))
   }
 
   componentDidMount() {
     this.webSocket = new WebSocket("ws://localhost:3001")
     this.webSocket.onopen = function (event){
       console.log("WebSocket is now open")
+    }
+    this.webSocket.onmessage = event => {
+      const serverMsg = JSON.parse(event.data)
+      const oldMessages = this.state.messages;
+      const newMessages = [...oldMessages, serverMsg];
+      this.setState({ messages: newMessages });
     }
   }
 
@@ -45,7 +41,7 @@ class App extends Component {
       <div>
         <NavBar />
         <MessageList messages={this.state.messages} />
-        <ChatBar addMessage={this.addMessage} currentUser={this.state.currentUser.name}/>
+        <ChatBar sendMessage={this.sendMessage} currentUser={this.state.currentUser.name}/>
       </div>
 
     );
