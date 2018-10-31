@@ -24,6 +24,4 @@ function ChatBar ({updateUser, sendNotification, sendMessage, currentUser}) {
     )
 }
 
-
-
 export default ChatBar
