@@ -14,6 +14,7 @@ class App extends Component {
   this.sendMessage = this.sendMessage.bind(this)
   this.sendNotification = this.sendNotification.bind(this)
   this.updateUser = this.updateUser.bind(this)
+  this.updateMessages = this.updateMessages.bind(this)
   }
 
 // This method sends a message to the websocket with the information from ChatBar.jsx
@@ -28,6 +29,12 @@ class App extends Component {
 
   updateUser(newUsername) {
     this.setState({currentUser: newUsername})
+  }
+
+  updateMessages(newMessage) {
+     let oldMessages = this.state.messages;
+     let newMessages = [...oldMessages, newMessage];
+     this.setState({ messages: newMessages });
   }
 
 // This method sends a notification to the websocket with information from ChatBar.jsx
@@ -50,14 +57,10 @@ class App extends Component {
       const serverMsg = JSON.parse(event.data)
       switch(serverMsg.type) {
         case "incomingMessage":
-          let oldMessages = this.state.messages;
-          let newMessages = [...oldMessages, serverMsg];
-          this.setState({ messages: newMessages });
+          this.updateMessages(serverMsg)
           break;
         case "incomingNotification":
-          let oldMessageNotifications = this.state.messages;
-          let newMessageNotifications = [...oldMessageNotifications, serverMsg];
-          this.setState({ messages: newMessageNotifications });
+          this.updateMessages(serverMsg)
           this.setState({currentUser: serverMsg.newUsername})
           break;
         case "connectedClients":

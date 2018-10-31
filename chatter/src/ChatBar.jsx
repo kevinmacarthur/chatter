@@ -18,7 +18,7 @@ function ChatBar ({updateUser, sendNotification, sendMessage, currentUser}) {
 
     return (
       <footer className="chatbar">
-        <input className="chatbar-username" onKeyDown={keyPressUsername} placeholder="Username" />
+        <input className="chatbar-username" onKeyDown={keyPressUsername} placeholder="Type Username and hit ENTER" />
         <input className="chatbar-message" onKeyDown={keyPressMessage} placeholder="Type a message and hit ENTER" />
       </footer>
     )
