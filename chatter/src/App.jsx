@@ -7,20 +7,29 @@ class App extends Component {
  constructor(props) {
     super();
     this.state = {
-      currentUser: {name: "Anonymous"},
+      currentUser:  "Anonymous",
       messages: []
     }
   this.sendMessage = this.sendMessage.bind(this)
+  this.sendNotification = this.sendNotification.bind(this)
   }
 
   sendMessage(username, message) {
     const newMessage = {
-      id: this.state.messages.length + 1, //could import uuid here
+      type: 'postMessage',
       username: username,
       content: message
     };
-
     this.webSocket.send(JSON.stringify(newMessage))
+  }
+
+  sendNotification(newUsername) {
+    const newNotificiation = {
+      type: 'postNotification',
+      currentUser: this.state.currentUser,
+      newUsername: newUsername
+    };
+    this.webSocket.send(JSON.stringify(newNotificiation))
   }
 
   componentDidMount() {
@@ -29,10 +38,22 @@ class App extends Component {
       console.log("WebSocket is now open")
     }
     this.webSocket.onmessage = event => {
-      const serverMsg = JSON.parse(event.data)
-      const oldMessages = this.state.messages;
-      const newMessages = [...oldMessages, serverMsg];
-      this.setState({ messages: newMessages });
+      const serverMsg = JSON.parse(event.data) //Needs to get event.data.type for some reason its undefined
+      switch(serverMsg.type) {
+        case "incomingMessage":
+          let oldMessages = this.state.messages;
+          let newMessages = [...oldMessages, serverMsg];
+          this.setState({ messages: newMessages });
+          break;
+        case "incomingNotification":
+          let oldMessageNotifications = this.state.messages;
+          let newMessageNotifications = [...oldMessageNotifications, serverMsg];
+          this.setState({ messages: newMessageNotifications });
+          this.setState({currentUser: serverMsg.newUsername})
+          break;
+        default:
+        throw new Error ("Unknown event type " + serverMsg.type)
+      }
     }
   }
 
@@ -41,7 +62,7 @@ class App extends Component {
       <div>
         <NavBar />
         <MessageList messages={this.state.messages} />
-        <ChatBar sendMessage={this.sendMessage} currentUser={this.state.currentUser.name}/>
+        <ChatBar currentUser={this.state.currentUser} sendMessage={this.sendMessage} sendNotification={this.sendNotification} currentUser={this.state.currentUser.name}/>
       </div>
 
     );

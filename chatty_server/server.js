@@ -16,13 +16,6 @@ const server = express()
 // Create the WebSockets server
 const wss = new SocketServer({ server });
 
-// wss.broadcast = function broadcast(data) {
-//   wss.clients.forEach(function each(client) {
-//     if (client.readyState === WebSocket.OPEN) {
-//       client.send(data);
-//     }
-//   });
-// };
 
 // Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
@@ -32,8 +25,15 @@ wss.on('connection', (ws) => {
 
   ws.on('message', function incoming(message) {
     let incomingmsg = JSON.parse(message)
+    if (incomingmsg.type === "postMessage") {
+      incomingmsg.type= "incomingMessage"
+      console.log(incomingmsg)
+    }
+    if (incomingmsg.type === "postNotification") {
+      incomingmsg.type= "incomingNotification"
+      console.log(incomingmsg)
+    }
     incomingmsg.id = uuid()
-    console.log(`user: ${incomingmsg.username} said: ${incomingmsg.content}, uuid: ${incomingmsg.id}`);
     wss.clients.forEach(function (client) {
         client.send(JSON.stringify(incomingmsg));
     })
