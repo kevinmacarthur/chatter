@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 function Notification ({oldUsername, newUsername}) {
     return (
-      <div className="message system">
+      <div className="notification">
         {oldUsername} changed their name to {newUsername}.
       </div>
     )

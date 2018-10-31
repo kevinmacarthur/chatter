@@ -12,15 +12,20 @@ class App extends Component {
     }
   this.sendMessage = this.sendMessage.bind(this)
   this.sendNotification = this.sendNotification.bind(this)
+  this.updateUser = this.updateUser.bind(this)
   }
 
-  sendMessage(username, message) {
+  sendMessage(message) {
     const newMessage = {
       type: 'postMessage',
-      username: username,
+      username: this.state.currentUser,
       content: message
     };
     this.webSocket.send(JSON.stringify(newMessage))
+  }
+
+  updateUser(newUsername) {
+    this.setState({currentUser: newUsername})
   }
 
   sendNotification(newUsername) {
@@ -62,7 +67,7 @@ class App extends Component {
       <div>
         <NavBar />
         <MessageList messages={this.state.messages} />
-        <ChatBar currentUser={this.state.currentUser} sendMessage={this.sendMessage} sendNotification={this.sendNotification} currentUser={this.state.currentUser.name}/>
+        <ChatBar updateUser={this.updateUser} currentUser={this.state.currentUser} sendMessage={this.sendMessage} sendNotification={this.sendNotification} />
       </div>
 
     );
