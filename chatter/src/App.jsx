@@ -7,9 +7,10 @@ class App extends Component {
  constructor(props) {
     super();
     this.state = {
-      currentUser:  "Anonymous",
+      currentUser:  {name: "Anonymous", userColor: 'black'},
       messages: [],
       connectedUsers: 1
+
     }
   this.sendMessage = this.sendMessage.bind(this)
   this.sendNotification = this.sendNotification.bind(this)
@@ -21,14 +22,15 @@ class App extends Component {
   sendMessage(message) {
     const newMessage = {
       type: 'postMessage',
-      username: this.state.currentUser,
-      content: message
+      username: this.state.currentUser.name,
+      content: message,
+      color: this.state.currentUser.userColor
     };
     this.webSocket.send(JSON.stringify(newMessage))
   }
 
   updateUser(newUsername) {
-    this.setState({currentUser: newUsername})
+    this.setState({currentUser: {name: newUsername, userColor: this.state.currentUser.userColor}})
   }
 
   updateMessages(newMessage) {
@@ -41,7 +43,7 @@ class App extends Component {
   sendNotification(newUsername) {
     const newNotificiation = {
       type: 'postNotification',
-      currentUser: this.state.currentUser,
+      currentUser: this.state.currentUser.name,
       newUsername: newUsername
     };
     this.webSocket.send(JSON.stringify(newNotificiation))
@@ -55,16 +57,19 @@ class App extends Component {
     }
     this.webSocket.onmessage = event => {
       const serverMsg = JSON.parse(event.data)
+      // console.log(serverMsg)
       switch(serverMsg.type) {
         case "incomingMessage":
           this.updateMessages(serverMsg)
           break;
         case "incomingNotification":
           this.updateMessages(serverMsg)
-          this.setState({currentUser: serverMsg.newUsername})
           break;
         case "connectedClients":
           this.setState({connectedUsers: serverMsg.connectedUsers})
+          break;
+        case "userColor":
+          this.setState({currentUser: {name: this.state.currentUser.name, userColor: serverMsg.connectedUserColor}})
           break;
         default:
         throw new Error ("Unknown event type " + serverMsg.type)
@@ -76,8 +81,8 @@ class App extends Component {
     return (
       <div>
         <NavBar currentUsers={this.state.connectedUsers}/>
-        <MessageList messages={this.state.messages} />
-        <ChatBar updateUser={this.updateUser} currentUser={this.state.currentUser} sendMessage={this.sendMessage} sendNotification={this.sendNotification} />
+        <MessageList messages={this.state.messages} userColor={this.state.currentUser.userColor} />
+        <ChatBar updateUser={this.updateUser} currentUser={this.state.currentUser.name} sendMessage={this.sendMessage} sendNotification={this.sendNotification} />
       </div>
 
     );

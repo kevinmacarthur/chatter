@@ -6,7 +6,7 @@ function MessageList ({messages}) {
   const messageList = messages.map(message => {
     if (message.type === "incomingMessage") {
       return(
-        <Message key={message.id} message={message.content} username={message.username} />
+        <Message key={message.id} message={message.content} username={message.username} userColor={message.color} />
       )
     }
     if (message.type === "incomingNotification") {

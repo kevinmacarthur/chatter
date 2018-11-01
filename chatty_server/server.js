@@ -22,12 +22,19 @@ const wss = new SocketServer({ server });
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
   console.log('Client connected');
-  console.log(wss.clients.size)
 
   let connectedClients = {
     type: "connectedClients",
-    connectedUsers: wss.clients.size
+    connectedUsers: wss.clients.size,
   }
+
+  let clientColour = {
+    type: "userColor",
+    connectedUserColor: generateColor()
+  }
+
+  ws.send(JSON.stringify(clientColour))
+
 
   wss.clients.forEach(function (client) {
     client.send(JSON.stringify(connectedClients));
@@ -35,6 +42,7 @@ wss.on('connection', (ws) => {
 
   ws.on('message', function incoming(message) {
     let incomingmsg = JSON.parse(message)
+    console.log("incomingmsg is ", incomingmsg)
     if (incomingmsg.type === "postMessage") {
       incomingmsg.type= "incomingMessage"
     }
@@ -50,14 +58,34 @@ wss.on('connection', (ws) => {
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on('close', (ws) => {
     console.log('Client disconnected')
+
     let connectedClients = {
         type: "connectedClients",
         connectedUsers: wss.clients.size
     }
 
     wss.clients.forEach(function (client) {
-     client.send(JSON.stringify(connectedClients))
+      client.send(JSON.stringify(connectedClients))
     })
   });
 });
+
+function generatenNumber () {
+  return Math.floor(Math.random() * 4)
+}
+function generateColor () {
+  if (generatenNumber() === 0) {
+    return "black"
+  }
+  if (generatenNumber() === 1) {
+    return "red"
+  }
+  if (generatenNumber() === 2) {
+    return "blue"
+  }
+  else {
+    return "green"
+  }
+}
+
 
