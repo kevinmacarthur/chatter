@@ -1,11 +1,18 @@
 import React, {Component} from 'react';
 
-function Notification ({oldUsername, newUsername}) {
+class Notification extends Component {
+  constructor(props) {
+    super();
+  }
+  componentDidMount() {
+    window.scrollTo(0,document.body.scrollHeight)
+  }
+  render(){
     return (
       <div className="notification">
-        {oldUsername} changed their name to {newUsername}.
+        {this.props.oldUsername} changed their name to {this.props.newUsername}.
       </div>
-    )
+    )}
 }
 
 export default Notification;

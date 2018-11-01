@@ -10,7 +10,6 @@ class App extends Component {
       currentUser:  {name: "Anonymous", userColor: 'black'},
       messages: [],
       connectedUsers: 1
-
     }
   this.sendMessage = this.sendMessage.bind(this)
   this.sendNotification = this.sendNotification.bind(this)
@@ -90,7 +89,6 @@ class App extends Component {
 }
 
 function NavBar ({currentUsers}) {
-
 //If there is one user connected remove the s from users in NavBar
   const oneUser =
     <nav className="navbar">

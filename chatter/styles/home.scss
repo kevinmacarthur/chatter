@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito|Patrick+Hand');
+
 h1 {
-  color: tomato;
+  color: #4e8ef4;
 }
   body {
       background: white;
@@ -10,7 +12,7 @@ h1 {
     }
 
     .chatbar {
-      background: tomato;
+      background: #4e8ef4;
       border-top: 1px solid black;
       bottom: 0;
       display: flex;
@@ -32,10 +34,12 @@ h1 {
 
     .chatbar-message {
       flex: 8;
+      border-radius: 4px
     }
 
     .chatbar-username {
       flex: 2;
+      border-radius: 4px
     }
 
     .message {
@@ -53,19 +57,23 @@ h1 {
       overflow: hidden;
       margin: 5px;
       padding: 0 10px;
+
     }
 
     .message-content {
       flex: 8;
+      font-family: 'Nunito', sans-serif;
+      font-size: 16px
     }
 
     .message-username {
       flex: 2;
       font-weight: 700;
+
     }
 
     .navbar {
-      background: tomato;
+      background: #4e8ef4;
       border-bottom: 1px solid black;
       height: 60px;
       left: 0;
@@ -80,7 +88,8 @@ h1 {
       display: block;
       float: left;
       font-weight: 700;
-      font-size: 28px;
+      font-size: 42px;
+      font-family: 'Patrick Hand', cursive;
       height: 60px;
       line-height: 60px;
       padding: 0 10px;
@@ -92,10 +101,18 @@ h1 {
       display: block;
       float: right;
       font-weight: 400;
-      font-size: 20px;
-      height: 60px;
+      font-size: 28px;
+      font-family: 'Patrick Hand', cursive;
       line-height: 60px;
       padding: 0 10px;
       text-decoration: none;
     }
 
+    img {
+    width: 60%;
+    }
+
+    ::placeholder {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 14px;
+    }

@@ -22,51 +22,28 @@ const wss = new SocketServer({ server });
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
   console.log('Client connected');
-
   let connectedClients = {
-    type: "connectedClients",
-    connectedUsers: wss.clients.size,
-  }
-
+                          type: "connectedClients",
+                          connectedUsers: wss.clients.size,
+                         }
   let clientColour = {
-    type: "userColor",
-    connectedUserColor: generateColor()
-  }
-
+                      type: "userColor",
+                      connectedUserColor: generateColor()
+                      }
   ws.send(JSON.stringify(clientColour))
+  wss.broadcast(JSON.stringify(connectedClients));
 
-
-  wss.clients.forEach(function (client) {
-    client.send(JSON.stringify(connectedClients));
-  })
-
-  ws.on('message', function incoming(message) {
-    let incomingmsg = JSON.parse(message)
-    console.log("incomingmsg is ", incomingmsg)
-    if (incomingmsg.type === "postMessage") {
-      incomingmsg.type= "incomingMessage"
-    }
-    if (incomingmsg.type === "postNotification") {
-      incomingmsg.type= "incomingNotification"
-    }
-    incomingmsg.id = uuid()
-    wss.clients.forEach(function (client) {
-        client.send(JSON.stringify(incomingmsg));
-    })
-  });
+  //ON receive message
+  ws.on('message', handleMessage)
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on('close', (ws) => {
     console.log('Client disconnected')
-
     let connectedClients = {
-        type: "connectedClients",
-        connectedUsers: wss.clients.size
-    }
-
-    wss.clients.forEach(function (client) {
-      client.send(JSON.stringify(connectedClients))
-    })
+                            type: "connectedClients",
+                            connectedUsers: wss.clients.size
+                            }
+   wss.broadcast(JSON.stringify(connectedClients));
   });
 });
 
@@ -88,4 +65,35 @@ function generateColor () {
   }
 }
 
+wss.broadcast = function(data) {
+  wss.clients.forEach(function(client) {
+    client.send(data);
+  });
+};
 
+function handleMessage(message) {
+  // Receive message, parse, then add unique id so React behaves correctly
+  console.log(`Received: ${message}`)
+  let incomingmsg = JSON.parse(message)
+  incomingmsg.id = uuid()
+
+  if (incomingmsg.type === "postMessage") {
+    incomingmsg.type= "incomingMessage"
+
+    var matches = incomingmsg.content.match(/(https?:\/\/.*\.(?:png|jpg|gif))/i)
+
+    if (matches) {
+        console.log("IMAGE MATCH ", matches)
+        incomingmsg.content = `<img src="${matches[1]}"/>
+                              <div> ${matches[0]} </div>`
+        wss.broadcast(JSON.stringify(incomingmsg))
+    } else {
+      wss.broadcast(JSON.stringify(incomingmsg));
+      console.log(`Sent: else loop`);
+    }
+  }
+  if (incomingmsg.type === "postNotification") {
+    incomingmsg.type= "incomingNotification"
+    wss.broadcast(JSON.stringify(incomingmsg));
+  }
+}
