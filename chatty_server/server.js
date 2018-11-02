@@ -55,13 +55,13 @@ function generateColor () {
     return "black"
   }
   if (generatenNumber() === 1) {
-    return "red"
+    return "#991a33"
   }
   if (generatenNumber() === 2) {
-    return "blue"
+    return "#4e8ef4"
   }
   else {
-    return "green"
+    return "#25964b"
   }
 }
 
@@ -79,17 +79,20 @@ function handleMessage(message) {
 
   if (incomingmsg.type === "postMessage") {
     incomingmsg.type= "incomingMessage"
-
-    var matches = incomingmsg.content.match(/(https?:\/\/.*\.(?:png|jpg|gif))/i)
-
+    var matches = incomingmsg.content.match(/.*?(https?:\/\/.*\.(?:png|jpg|gif)).*?/i)
     if (matches) {
-        console.log("IMAGE MATCH ", matches)
-        incomingmsg.content = `<img src="${matches[1]}"/>
-                              <div> ${matches[0]} </div>`
+       let trim =matches.input.split(`${matches[1]}`)
+
+       console.log(trim)
+       console.log("Match[1] is: ", matches.input)
+
+        incomingmsg.content = `<div> ${trim[0]} </div>
+                              <img src="${matches[1]}"/>
+                              <div> ${trim[1]} </div>
+                              <a href="${matches[1]}" target="_blank"> Click to enlarge </a>`
         wss.broadcast(JSON.stringify(incomingmsg))
     } else {
       wss.broadcast(JSON.stringify(incomingmsg));
-      console.log(`Sent: else loop`);
     }
   }
   if (incomingmsg.type === "postNotification") {
