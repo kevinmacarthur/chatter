@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Message from './Message.jsx'
 import Notification from './Notification.jsx'
 
+
 const messages = document.getElementById('messages');
 
 function MessageList ({messages}) {
@@ -17,6 +18,7 @@ function MessageList ({messages}) {
       )
     }
     });
+
     return (
       <main className="messages">
       {messageList}

@@ -20,17 +20,4 @@ render(){
   }
 }
 
-// function Message ({username, message, userColor}){
-//   const userColour = {color: userColor}
-//     return (
-//         <div className="message" >
-//           <span className="message-username" style={userColour}>{username}</span>
-//           <span className="message-content" dangerouslySetInnerHTML={{__html: message}} />
-//         </div>
-//     );
-// }
-// Message.prototype.componentDidMount = function () {
-//   window.scrollTo(0,document.body.scrollHeight)
-//   console.log("Mount")
-// }
 export default Message
