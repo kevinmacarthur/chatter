@@ -2,7 +2,10 @@ import React, {Component} from 'react';
 import Message from './Message.jsx'
 import Notification from './Notification.jsx'
 
+const messages = document.getElementById('messages');
+
 function MessageList ({messages}) {
+  console.log("MESSAGES ARE ", messages)
   const messageList = messages.map(message => {
     if (message.type === "incomingMessage") {
       return(
