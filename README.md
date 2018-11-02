@@ -14,9 +14,17 @@ A basic chat application that allows multiple users to communciate with each oth
 
 ## Final Product
 
-Home Page
+Start Chatting!
 
-![""](img here)
+![""](https://github.com/kevinmacarthur/chatter/blob/master/chatter/images/Initial%20Screen.png)
+
+Change your Username and Color!
+
+![""](https://github.com/kevinmacarthur/chatter/blob/master/chatter/images/ChangeUsername.png)
+
+Chat with Others and Share what you like!
+
+![""](https://github.com/kevinmacarthur/chatter/blob/master/chatter/images/MultipleUsers.png)
 
 ### Dependencies
 
