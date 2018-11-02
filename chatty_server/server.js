@@ -16,7 +16,6 @@ const server = express()
 // Create the WebSockets server
 const wss = new SocketServer({ server });
 
-
 // Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
@@ -81,12 +80,8 @@ function handleMessage(message) {
     incomingmsg.type= "incomingMessage"
     var matches = incomingmsg.content.match(/.*?(https?:\/\/.*\.(?:png|jpg|gif)).*?/i)
     if (matches) {
-       let trim =matches.input.split(`${matches[1]}`)
-
-       console.log(trim)
-       console.log("Match[1] is: ", matches.input)
-
-        incomingmsg.content = `<div> ${trim[0]} </div>
+      let trim =matches.input.split(`${matches[1]}`)
+      incomingmsg.content = `<div> ${trim[0]} </div>
                               <img src="${matches[1]}"/>
                               <div> ${trim[1]} </div>
                               <a href="${matches[1]}" target="_blank"> Click to enlarge </a>`

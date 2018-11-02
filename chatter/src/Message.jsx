@@ -11,7 +11,6 @@ componentDidMount() {
 }
 render(){
   const userColour = {color: this.props.userColor}
-  console.log(this.props)
   return (
         <div className="message" >
           <span className="message-username" style={userColour}>{this.props.username}</span>
