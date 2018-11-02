@@ -3,27 +3,27 @@ import React, {Component} from 'react';
 
 function ColorDropdown ({changeUserColor, currentColor}) {
   //Deals with turning numeric colors into words for smoother user experience
-  let currentColorWord = ""
+  let currentColorWord = '';
   switch(currentColor) {
-    case "#bc203e":
-      currentColorWord = "Red"
+    case '#bc203e':
+      currentColorWord = 'Red';
       break;
-    case "#4e8ef4":
-      currentColorWord = "Blue"
+    case '#4e8ef4':
+      currentColorWord = 'Blue';
       break;
-    case "#25964b":
-      currentColorWord = "Green"
+    case '#25964b':
+      currentColorWord = 'Green';
       break;
     default:
-      currentColorWord = "Black"
+      currentColorWord = 'Black';
   }
   const styleObj = {
                     color: currentColor,
                     fontWeight: 'bold'
-                    }
+                    };
 
    function changeHandler(e){
-         changeUserColor(e.target.value)
+         changeUserColor(e.target.value);
       }
 
   return (

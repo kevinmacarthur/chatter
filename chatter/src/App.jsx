@@ -1,22 +1,22 @@
 import React, {Component} from 'react';
-import ChatBar from './ChatBar.jsx'
-import MessageList from './MessageList.jsx'
-import ColorDropDown from './ChooseColor.jsx'
+import ChatBar from './ChatBar.jsx';
+import MessageList from './MessageList.jsx';
+import ColorDropDown from './ChooseColor.jsx';
 
 class App extends Component {
 
  constructor(props) {
     super();
     this.state = {
-      currentUser:  {name: "Anonymous", userColor: 'black'},
+      currentUser:  {name: 'Anonymous', userColor: 'black'},
       messages: [],
       connectedUsers: 1
-    }
-  this.sendMessage = this.sendMessage.bind(this)
-  this.sendNotification = this.sendNotification.bind(this)
-  this.updateUser = this.updateUser.bind(this)
-  this.updateMessages = this.updateMessages.bind(this)
-  this.changeUserColor = this.changeUserColor.bind(this)
+    };
+  this.sendMessage = this.sendMessage.bind(this);
+  this.sendNotification = this.sendNotification.bind(this);
+  this.updateUser = this.updateUser.bind(this);
+  this.updateMessages = this.updateMessages.bind(this);
+  this.changeUserColor = this.changeUserColor.bind(this);
   }
 
 // This method sends a message to the websocket with the information from ChatBar.jsx
@@ -27,11 +27,11 @@ class App extends Component {
       content: message,
       color: this.state.currentUser.userColor
     };
-    this.webSocket.send(JSON.stringify(newMessage))
+    this.webSocket.send(JSON.stringify(newMessage));
   }
 
   updateUser(newUsername) {
-    this.setState({currentUser: {name: newUsername, userColor: this.state.currentUser.userColor}})
+    this.setState({currentUser: {name: newUsername, userColor: this.state.currentUser.userColor}});
   }
 
   updateMessages(newMessage) {
@@ -41,7 +41,7 @@ class App extends Component {
   }
 
   changeUserColor(newColor) {
-    this.setState({currentUser: {name: this.state.currentUser.name, userColor: newColor}})
+    this.setState({currentUser: {name: this.state.currentUser.name, userColor: newColor}});
   }
 
 // This method sends a notification to the websocket with information from ChatBar.jsx
@@ -51,35 +51,33 @@ class App extends Component {
       currentUser: this.state.currentUser.name,
       newUsername: newUsername
     };
-    this.webSocket.send(JSON.stringify(newNotificiation))
+    this.webSocket.send(JSON.stringify(newNotificiation));
   }
 
 //Depending what the type of message is either update currentuser, messages or number of users
   componentDidMount() {
-    this.webSocket = new WebSocket("ws://localhost:3001")
-    this.webSocket.onopen = function (event){
-      console.log("WebSocket is now open")
-    }
+    this.webSocket = new WebSocket('ws://localhost:3001');
+    this.webSocket.onopen = function (){
+    };
     this.webSocket.onmessage = event => {
-      const serverMsg = JSON.parse(event.data)
-      // console.log(serverMsg)
+      const serverMsg = JSON.parse(event.data);
       switch(serverMsg.type) {
-        case "incomingMessage":
-          this.updateMessages(serverMsg)
+        case 'incomingMessage':
+          this.updateMessages(serverMsg);
           break;
-        case "incomingNotification":
-          this.updateMessages(serverMsg)
+        case 'incomingNotification':
+          this.updateMessages(serverMsg);
           break;
-        case "connectedClients":
-          this.setState({connectedUsers: serverMsg.connectedUsers})
+        case 'connectedClients':
+          this.setState({connectedUsers: serverMsg.connectedUsers});
           break;
-        case "userColor":
-          this.setState({currentUser: {name: this.state.currentUser.name, userColor: serverMsg.connectedUserColor}})
+        case 'userColor':
+          this.setState({currentUser: {name: this.state.currentUser.name, userColor: serverMsg.connectedUserColor}});
           break;
         default:
-        throw new Error ("Unknown event type " + serverMsg.type)
+        throw new Error ('Unknown event type ' + serverMsg.type);
       }
-    }
+    };
   }
 
   render() {

@@ -3,15 +3,15 @@ import React, {Component} from 'react';
 function ChatBar ({updateUser, sendNotification, sendMessage, currentUser}) {
    function keyPressUsername(e){
       if(e.keyCode == 13 && currentUser !== e.target.value && e.target.value.length > 0){
-        sendNotification(e.target.value)
-        updateUser(e.target.value)
+        sendNotification(e.target.value);
+        updateUser(e.target.value);
       }
    }
 
    function keyPressMessage(e){
       if(e.keyCode == 13 && e.target.value.length > 0){
-         sendMessage(e.target.value)
-         e.target.value = ''
+         sendMessage(e.target.value);
+         e.target.value = '';
       }
    }
 
