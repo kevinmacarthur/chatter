@@ -54,7 +54,7 @@ function generateColor () {
     return "black"
   }
   if (generatenNumber() === 1) {
-    return "#991a33"
+    return "#bc203e"
   }
   if (generatenNumber() === 2) {
     return "#4e8ef4"

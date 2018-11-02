@@ -125,6 +125,11 @@ h1 {
     font-size: 14px;
     }
 
+    .dropDown {
+    z-index: 10;
+    }
+// THIS IS all the Bird CSS
+
 .bird {
   background-image: url("/images/bird-cells.svg");
   background-size: auto 100%;

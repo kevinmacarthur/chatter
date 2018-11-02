@@ -15,6 +15,7 @@ class App extends Component {
   this.sendNotification = this.sendNotification.bind(this)
   this.updateUser = this.updateUser.bind(this)
   this.updateMessages = this.updateMessages.bind(this)
+  this.changeUserColor = this.changeUserColor.bind(this)
   }
 
 // This method sends a message to the websocket with the information from ChatBar.jsx
@@ -36,6 +37,10 @@ class App extends Component {
      let oldMessages = this.state.messages;
      let newMessages = [...oldMessages, newMessage];
      this.setState({ messages: newMessages });
+  }
+
+  changeUserColor(newColor) {
+    this.setState({currentUser: {name: this.state.currentUser.name, userColor: newColor}})
   }
 
 // This method sends a notification to the websocket with information from ChatBar.jsx
@@ -80,7 +85,7 @@ class App extends Component {
     return (
       <div>
         <NavBar currentUsers={this.state.connectedUsers}/>
-        <MessageList messages={this.state.messages} userColor={this.state.currentUser.userColor} />
+        <MessageList messages={this.state.messages} changeUserColor={this.changeUserColor} />
         <ChatBar updateUser={this.updateUser} currentUser={this.state.currentUser.name} sendMessage={this.sendMessage} sendNotification={this.sendNotification} />
       </div>
 
