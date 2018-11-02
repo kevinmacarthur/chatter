@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ChatBar from './ChatBar.jsx'
 import MessageList from './MessageList.jsx'
+import ColorDropDown from './ChooseColor.jsx'
 
 class App extends Component {
 
@@ -85,7 +86,8 @@ class App extends Component {
     return (
       <div>
         <NavBar currentUsers={this.state.connectedUsers}/>
-        <MessageList messages={this.state.messages} changeUserColor={this.changeUserColor} />
+        <ColorDropDown changeUserColor={this.changeUserColor} currentColor={this.state.currentUser.userColor}/>
+        <MessageList messages={this.state.messages} />
         <ChatBar updateUser={this.updateUser} currentUser={this.state.currentUser.name} sendMessage={this.sendMessage} sendNotification={this.sendNotification} />
       </div>
 
@@ -98,13 +100,13 @@ function NavBar ({currentUsers}) {
   const oneUser =
     <nav className="navbar">
       <a href="/" className="navbar-brand">Chatty</a>
-      <a className="navbar-brand" className="users-online"> {currentUsers} user online </a>
+      <a className="navbar-brand" className="users-online"> {currentUsers} User Online </a>
     </nav>
 
   const multUsers =
     <nav className="navbar">
       <a href="/" className="navbar-brand">Chatty</a>
-      <a className="navbar-brand" className="users-online"> {currentUsers} users online </a>
+      <a className="navbar-brand" className="users-online"> {currentUsers} Users Online </a>
     </nav>
 
   if (currentUsers !== 1) {

@@ -84,7 +84,7 @@ function handleMessage(message) {
       incomingmsg.content = `<div> ${trim[0]} </div>
                               <img src="${matches[1]}"/>
                               <div> ${trim[1]} </div>
-                              <a href="${matches[1]}" target="_blank"> Click to enlarge </a>`
+                              <a href="${matches[1]}" target="_blank"> View Image </a>`
         wss.broadcast(JSON.stringify(incomingmsg))
     } else {
       wss.broadcast(JSON.stringify(incomingmsg));
